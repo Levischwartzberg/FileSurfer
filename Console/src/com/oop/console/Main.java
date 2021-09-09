@@ -26,16 +26,15 @@ public class Main {
 //        test.Test();
 
 //        recursiveFiles(new File("/home/levi/IdeaProjects/com.oop.assessment"));
+//        clearDB();
         getInput();
         DisplayMenuOptions();
     }
 
     private static void recursiveFiles(File dir, int dirCount) {
-        System.out.println(dirCount);
         try {
             File[] files = dir.listFiles();
             for (File file : files) {
-                dirCount++;
                 File[] fileList = file.listFiles();
                 if (file.isDirectory()) {
                     Directory directory = new Directory();
@@ -47,12 +46,15 @@ public class Main {
                     DirectoryDAO directoryDAO = new DirectoryDAOImpl();
                     directoryDAO.insertDirectory(directory);
 
-                    System.out.println("Directory: " + file.getCanonicalPath() + "  " + file.getName() + "  " + file.length());
-                    recursiveFiles(file, dirCount);
+                    int directoryID = directoryDAO.getMostRecentDirectory().getDirectoryId();
+
+//                    System.out.println("Directory: " + file.getCanonicalPath() + "  " + file.getName() + "  " + file.length());
+                    recursiveFiles(file, directoryID);
                 }
                 else {
-                    System.out.println("File: " + file.getCanonicalPath()  + "  " + file.getName()  + "  " + file.length());
+//                    System.out.println("File: " + file.getCanonicalPath()  + "  " + file.getName()  + "  " + file.length());
                     FileObj fileObj = new FileObj();
+//                    System.out.println("DIRCOUNT: " + dirCount);
 
                     fileObj.setFileName(file.getName());
                     fileObj.setFileSize(file.length());
@@ -70,12 +72,37 @@ public class Main {
     }
 
     private static void getInput() {
-        clearDB();
+        System.out.println("Would you like to clear the current database (Y,y or N,n?)");
+        Scanner delete = new Scanner(System.in);
+        String option = delete.nextLine();
+        if (option.equals("y") || option.equals("Y")) {
+            System.out.println("Deleted!");
+            clearDB();
+        }
+
         System.out.println("Enter in a directory name.");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        recursiveFiles(new File(input), 1);
+        File file = new File(input);
+        File[] fileList = file.listFiles();
+
+        if (file.isDirectory()) {
+            Directory directory = new Directory();
+            directory.setDirName(file.getName());
+            directory.setDirSize(getFolderSize(file));
+            directory.setPath(file.getPath());
+            directory.setNumberOfFiles(fileList.length);
+
+            DirectoryDAO directoryDAO = new DirectoryDAOImpl();
+            directoryDAO.insertDirectory(directory);
+
+            int directoryID = directoryDAO.getMostRecentDirectory().getDirectoryId();
+
+            System.out.println("Directory: " + file.getPath() + "  " + file.getName() + "  " + file.length());
+            recursiveFiles(new File(input), directoryID);
+        }
+
     }
 
     private static void clearDB() {
@@ -87,7 +114,8 @@ public class Main {
     }
 
     private static void DisplayMenuOptions() {
-        System.out.println("You have entered into the database all the files and directories starting from you specified directory.");
+        System.out.println("---------------------");
+        System.out.println("You have entered into the database all the files and directories starting from your specified directory.");
         System.out.println("Choose from the following options to interact with the database (enter option number).");
 
         System.out.println("---------------------");
@@ -104,18 +132,18 @@ public class Main {
         if (selection == 1) {
             DirectoryDAO directoryDAO = new DirectoryDAOImpl();
             Directory directory = directoryDAO.displayPopulousDirectory();
-            System.out.println(directory.getDirName());
+            directory.printInfo();
         }
         if (selection == 2) {
             DirectoryDAO directoryDAO = new DirectoryDAOImpl();
             Directory directory = directoryDAO.displayLargestDirectory();
-            System.out.println(directory.getDirName());
+            directory.printInfo();
         }
         if (selection == 3) {
             FileDAO fileDAO = new FileDAOImpl();
             List<FileObj> fileList = fileDAO.Select5LargestFiles();
             for (FileObj file : fileList) {
-                System.out.println(file.getFileName());
+                file.printInfo();
             }
         }
         if (selection == 4) {
@@ -125,7 +153,7 @@ public class Main {
             FileDAO fileDAO = new FileDAOImpl();
             List<FileObj> fileList = fileDAO.SelectByFileType(type);
             for (FileObj file : fileList) {
-                System.out.println(file.getFileName());
+                file.printInfo();
             }
         }
         if (selection == 5) {

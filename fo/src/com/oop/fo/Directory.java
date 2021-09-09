@@ -60,5 +60,9 @@ public class Directory {
 
     }
 
+    public void printInfo() {
+        System.out.println("Directory ID: " + directoryId + "   Directory Name: " + dirName + "   Directory Size: " + dirSize + "   # of Files: " + numberOfFiles);
+    }
+
 
 }

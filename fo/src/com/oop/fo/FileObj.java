@@ -69,5 +69,9 @@ public class FileObj {
         this.directoryId = directoryId;
     }
 
+    public void printInfo() {
+        System.out.println("File ID: " + fileId + "   File Name: " + fileName + "   File Size: " + fileSize + "   File Type: " + fileType);
+    }
+
 
 }

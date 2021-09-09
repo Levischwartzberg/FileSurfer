@@ -14,4 +14,5 @@ public interface DirectoryDAO {
     public void clearTable();
     public Directory displayPopulousDirectory();
     public Directory displayLargestDirectory();
+    public Directory getMostRecentDirectory();
 }

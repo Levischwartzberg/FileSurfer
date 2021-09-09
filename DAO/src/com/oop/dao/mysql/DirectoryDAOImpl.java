@@ -159,4 +159,23 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
         }
         return directory;
     }
+
+    @Override
+    public Directory getMostRecentDirectory() {
+        Connect();
+        Directory directory = null;
+        try {
+            String sp = "{call GetMostRecentDirectory}";
+            CallableStatement cStmt = connection.prepareCall(sp);
+            ResultSet rs = cStmt.executeQuery();
+
+            if(rs.next()) {
+                directory = HydrateDirectory(rs);
+            }
+
+        } catch (SQLException sqlEx) {
+            logger.error(sqlEx);
+        }
+        return directory;
+    }
 }
