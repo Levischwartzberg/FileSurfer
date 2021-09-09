@@ -132,16 +132,19 @@ public class Main {
         if (selection == 1) {
             DirectoryDAO directoryDAO = new DirectoryDAOImpl();
             Directory directory = directoryDAO.displayPopulousDirectory();
+            System.out.println("");
             directory.printInfo();
         }
         if (selection == 2) {
             DirectoryDAO directoryDAO = new DirectoryDAOImpl();
             Directory directory = directoryDAO.displayLargestDirectory();
+            System.out.println("");
             directory.printInfo();
         }
         if (selection == 3) {
             FileDAO fileDAO = new FileDAOImpl();
             List<FileObj> fileList = fileDAO.Select5LargestFiles();
+            System.out.println("");
             for (FileObj file : fileList) {
                 file.printInfo();
             }
@@ -152,6 +155,7 @@ public class Main {
             String type = typeInput.nextLine();
             FileDAO fileDAO = new FileDAOImpl();
             List<FileObj> fileList = fileDAO.SelectByFileType(type);
+            System.out.println("");
             for (FileObj file : fileList) {
                 file.printInfo();
             }
