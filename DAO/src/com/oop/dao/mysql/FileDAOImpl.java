@@ -25,6 +25,7 @@ public class FileDAOImpl extends MySQL implements FileDAO {
             if(rs.next()) {
                 file = HydrateFile(rs);
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -48,6 +49,7 @@ public class FileDAOImpl extends MySQL implements FileDAO {
 
                 fileList.add(file);
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -104,6 +106,7 @@ public class FileDAOImpl extends MySQL implements FileDAO {
                 id = rs.getInt(1);
                 return id;
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -138,7 +141,7 @@ public class FileDAOImpl extends MySQL implements FileDAO {
 
                 fileList.add(file);
             }
-
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -159,7 +162,7 @@ public class FileDAOImpl extends MySQL implements FileDAO {
 
                 fileList.add(file);
             }
-
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }

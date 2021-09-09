@@ -25,6 +25,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
             if(rs.next()) {
                 directory = HydrateDirectory(rs);
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -48,6 +49,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
 
                 directoryList.add(directory);
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -103,6 +105,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
                 id = rs.getInt(1);
                 return id;
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -135,6 +138,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
             if(rs.next()) {
                 directory = HydrateDirectory(rs);
             }
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -153,7 +157,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
             if(rs.next()) {
                 directory = HydrateDirectory(rs);
             }
-
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }
@@ -172,7 +176,7 @@ public class DirectoryDAOImpl extends MySQL implements DirectoryDAO {
             if(rs.next()) {
                 directory = HydrateDirectory(rs);
             }
-
+            connection.close();
         } catch (SQLException sqlEx) {
             logger.error(sqlEx);
         }

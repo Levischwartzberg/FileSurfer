@@ -114,58 +114,63 @@ public class Main {
     }
 
     private static void DisplayMenuOptions() {
-        System.out.println("---------------------");
-        System.out.println("You have entered into the database all the files and directories starting from your specified directory.");
-        System.out.println("Choose from the following options to interact with the database (enter option number).");
+        boolean contMenu = true;
+        while (contMenu == true) {
+            System.out.println("---------------------");
+            System.out.println("You have entered into the database all the files and directories starting from your specified directory.");
+            System.out.println("Choose from the following options to interact with the database (enter option number).");
 
-        System.out.println("---------------------");
-        System.out.println("1: Display Directory with the most files");
-        System.out.println("2: Display Directory with largest size");
-        System.out.println("3: Display 5 largest files");
-        System.out.println("4: Display all files of certain type");
-        System.out.println("5: Clear Database");
-        System.out.println("6: Exit");
+            System.out.println("---------------------");
+            System.out.println("1: Display Directory with the most files");
+            System.out.println("2: Display Directory with largest size");
+            System.out.println("3: Display 5 largest files");
+            System.out.println("4: Display all files of certain type");
+            System.out.println("5: Clear Database");
+            System.out.println("6: Exit");
 
-        Scanner input = new Scanner(System.in);
-        int selection = input.nextInt();
+            Scanner input = new Scanner(System.in);
+            int selection = input.nextInt();
 
-        if (selection == 1) {
-            DirectoryDAO directoryDAO = new DirectoryDAOImpl();
-            Directory directory = directoryDAO.displayPopulousDirectory();
-            System.out.println("");
-            directory.printInfo();
-        }
-        if (selection == 2) {
-            DirectoryDAO directoryDAO = new DirectoryDAOImpl();
-            Directory directory = directoryDAO.displayLargestDirectory();
-            System.out.println("");
-            directory.printInfo();
-        }
-        if (selection == 3) {
-            FileDAO fileDAO = new FileDAOImpl();
-            List<FileObj> fileList = fileDAO.Select5LargestFiles();
-            System.out.println("");
-            for (FileObj file : fileList) {
-                file.printInfo();
+            if (selection == 1) {
+                DirectoryDAO directoryDAO = new DirectoryDAOImpl();
+                Directory directory = directoryDAO.displayPopulousDirectory();
+                System.out.println("");
+                directory.printInfo();
+            }
+            if (selection == 2) {
+                DirectoryDAO directoryDAO = new DirectoryDAOImpl();
+                Directory directory = directoryDAO.displayLargestDirectory();
+                System.out.println("");
+                directory.printInfo();
+            }
+            if (selection == 3) {
+                FileDAO fileDAO = new FileDAOImpl();
+                List<FileObj> fileList = fileDAO.Select5LargestFiles();
+                System.out.println("");
+                for (FileObj file : fileList) {
+                    file.printInfo();
+                }
+            }
+            if (selection == 4) {
+                System.out.println("Enter in a file type.");
+                Scanner typeInput = new Scanner(System.in);
+                String type = typeInput.nextLine();
+                FileDAO fileDAO = new FileDAOImpl();
+                List<FileObj> fileList = fileDAO.SelectByFileType(type);
+                System.out.println("");
+                for (FileObj file : fileList) {
+                    file.printInfo();
+                }
+            }
+            if (selection == 5) {
+                clearDB();
+            }
+            if (selection == 6) {
+                contMenu = false;
+                System.out.println("Exited Menu");
             }
         }
-        if (selection == 4) {
-            System.out.println("Enter in a file type.");
-            Scanner typeInput = new Scanner(System.in);
-            String type = typeInput.nextLine();
-            FileDAO fileDAO = new FileDAOImpl();
-            List<FileObj> fileList = fileDAO.SelectByFileType(type);
-            System.out.println("");
-            for (FileObj file : fileList) {
-                file.printInfo();
-            }
-        }
-        if (selection == 5) {
-            clearDB();
-        }
-        if (selection == 6) {
-            System.out.println("Exited Menu");
-        }
+
     }
 
     private static long getFolderSize(File folder) {
